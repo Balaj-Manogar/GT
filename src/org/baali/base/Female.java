@@ -2,8 +2,6 @@ package org.baali.base;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -96,12 +94,15 @@ public class Female extends Person implements SpecialPrivilege
         child.getCurrentGenerationRelatives().put(dadFamilyName, dadSiblingsChildren);
         child.getCurrentGenerationRelatives().put(momFamilyName, momSiblingsChildren);
 
-       dadSiblingsChildren.stream().filter(d -> {
-           //List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
-           List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
-           boolean isNotSibling = !d.getSiblings().contains(d);
-           return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(child);
-       }).forEach(d -> addRelatives(d, d.getParents()));
+        updateRelativesInCousins(child, dadSiblingsChildren);
+        updateRelativesInCousins(child, momSiblingsChildren);
+
+       /* dadSiblingsChildren.stream().filter(d -> {
+            //List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+            List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+            boolean isNotSibling = !d.getSiblings().contains(d);
+            return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(child);
+        }).forEach(d -> addRelatives(d, d.getParents()));
 
         momSiblingsChildren.stream().filter(d -> {
             //List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
@@ -109,8 +110,9 @@ public class Female extends Person implements SpecialPrivilege
             boolean isNotSibling = !d.getSiblings().contains(d);
             return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(child);
         }).forEach(d -> addRelatives(d, d.getParents()));
+*/
 
-        Function<IPerson, Predicate<IPerson>> updateRelatives = currentChild -> {
+     /*   Function<IPerson, Predicate<IPerson>> updateRelatives = currentChild -> {
             Predicate<IPerson> updateRelativesPredicate = d -> {
                 List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
                 boolean isNotSibling = !d.getSiblings().contains(d);
@@ -119,13 +121,18 @@ public class Female extends Person implements SpecialPrivilege
             return updateRelativesPredicate;
         };
 
-        //dadSiblingsChildren.forEach();
+        Consumer<IPerson> addMissedRelatives = r -> addRelatives(r, r.getParents());*/
 
+    }
 
-
-        //System.out.println(child.getName() + ", " + dadFamilyName + ", " + momFamilyName);
-
-
+    private void updateRelativesInCousins(IPerson child, List<IPerson> siblingsChildren)
+    {
+        siblingsChildren.stream().filter(d -> {
+            //List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+            List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+            boolean isNotSibling = !d.getSiblings().contains(d);
+            return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(child);
+        }).forEach(d -> addRelatives(d, d.getParents()));
     }
 
     private static Stream<? extends IPerson> currentGenerationRelativesStream(IPerson sibling)
