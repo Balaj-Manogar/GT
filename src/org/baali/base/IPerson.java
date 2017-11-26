@@ -9,7 +9,6 @@ public interface IPerson extends LifePartner
         MALE, FEMALE
     }
 
-    Person getCurrentPerson();
 
     Couple getCouple();
 
@@ -25,17 +24,8 @@ public interface IPerson extends LifePartner
 
     String getName();
 
-    void setName(String name);
 
     String getGender();
 
-    void setLevel(int level);
 
-    int getLevel();
-
-    void setFamilyName(String familyName);
-
-    String getFamilyName();
-
-    String getChildFamilyName();
 }

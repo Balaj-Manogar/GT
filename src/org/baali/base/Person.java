@@ -45,15 +45,39 @@ public abstract class Person implements IPerson
 
     }
 
-    public Person getCurrentPerson()
+    protected Person getCurrentPerson()
     {
         return this;
     }
 
-    @Override
-    public String getChildFamilyName()
+    protected String getChildFamilyName()
     {
         return StringUtils.isBlank(familyName) ? name : familyName;
+    }
+
+    protected void setLevel(int theLevel)
+    {
+        this.level = theLevel;
+    }
+
+    protected void setName(String theName)
+    {
+        this.name = theName;
+    }
+
+    protected int getLevel()
+    {
+        return this.level;
+    }
+
+    public void setFamilyName(String theFamilyName)
+    {
+        this.familyName = theFamilyName;
+    }
+
+    public String getFamilyName()
+    {
+        return familyName;
     }
 
     @Override
@@ -62,11 +86,7 @@ public abstract class Person implements IPerson
         return this.name;
     }
 
-    @Override
-    public void setName(String theName)
-    {
-        this.name = theName;
-    }
+
 
     @Override
     public String getGender()
@@ -74,29 +94,6 @@ public abstract class Person implements IPerson
         return this.gender;
     }
 
-    @Override
-    public void setLevel(int theLevel)
-    {
-        this.level = theLevel;
-    }
-
-    @Override
-    public int getLevel()
-    {
-        return this.level;
-    }
-
-    @Override
-    public void setFamilyName(String theFamilyName)
-    {
-        this.familyName = theFamilyName;
-    }
-
-    @Override
-    public String getFamilyName()
-    {
-        return familyName;
-    }
 
     @Override
     public Couple getCouple()
