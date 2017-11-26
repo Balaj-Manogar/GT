@@ -4,7 +4,7 @@ import org.baali.base.Female;
 import org.baali.base.Male;
 import org.baali.base.Person;
 import org.baali.db.PeopleList;
-import org.baali.family.ShanCommunity;
+import org.baali.community.ShanCommunity;
 
 public class Main
 {

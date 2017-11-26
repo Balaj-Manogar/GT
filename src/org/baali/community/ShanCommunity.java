@@ -1,4 +1,4 @@
-package org.baali.family;
+package org.baali.community;
 
 import org.baali.base.Couple;
 import org.baali.base.Female;
