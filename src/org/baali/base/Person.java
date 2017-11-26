@@ -156,13 +156,13 @@ public abstract class Person implements IPerson
         if (Objects.nonNull(cousinsList) && cousinsList.size() > 0)
         {
             relativesName = cousinsList.values().stream().
-                    flatMap(list -> list.stream().map(rel -> rel.getName())).collect(Collectors.joining(","));
+                    flatMap(list -> list.stream().map(rel -> rel.getName())).collect(Collectors.joining(", "));
         }
 
         return String.format("ID: %d, Name: %s, Gender: %s, " + " Family name: %s" +
                         "\nSiblings: %s \nParents{Mom: %s, Dad: %s), " +
                         "\nCouple{Husband: %s, Wife: %s}, \nChildren: %s\n" +
-                        "Relatives: %s\n"
+                        "Cousins: %s\n"
                 , id, name, gender, getFamilyName(),
                 siblingsName, momName, dadName, husbandName, wifeName, childrensName, relativesName);
     }

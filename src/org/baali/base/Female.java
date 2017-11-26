@@ -19,7 +19,6 @@ public class Female extends Person implements SpecialPrivilege
     @Override
     public void addChild(Person child)
     {
-        String childFamilyName = child.getChildFamilyName();
         //child.setFamilyName(childFamilyName);
         child.getParents().setMale(getCouple().getMale());
         child.getParents().setFemale(getCouple().getFeMale());

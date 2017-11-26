@@ -7,32 +7,30 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ShanCommunity extends Community
+public class BluCommunity extends Community
 {
-    private final String COMMUNITY_NAME = "SHAN";
-    private static ShanCommunity instance;
+    private static BluCommunity instance;
+    private static final String COMMUNITY_NAME = "BLU";
     public static Predicate<Person> femaleChildren = c -> c.getGender().equalsIgnoreCase("female");
 
-    public static ShanCommunity getInstance()
+    public static BluCommunity getInstance()
     {
         if (instance == null)
         {
-            synchronized (ShanCommunity.class)
+            synchronized (BluCommunity.class)
             {
                 if (instance == null)
                 {
-                    instance = new ShanCommunity();
+                    instance = new BluCommunity();
                 }
             }
         }
         return instance;
     }
 
-
     @Override
     public Couple deliveryService(Person mom, Person child)
     {
-        //child.setFamilyName(SHAN_FAMILY_NAME);
         return super.deliveryService(mom, child);
     }
 
@@ -41,14 +39,14 @@ public class ShanCommunity extends Community
         return null;
     }
 
-    public List<Person> getChildrensTypeService(Person person, Predicate<Person> constraint)
-    {
-        return person.getChildrens().stream().filter(constraint).collect(Collectors.toList());
-    }
-
+    @Override
     public String getCommunityName()
     {
         return this.COMMUNITY_NAME;
     }
 
+    public List<Person> getChildrensTypeService(Person person, Predicate<Person> constraint)
+    {
+        return person.getChildrens().stream().filter(constraint).collect(Collectors.toList());
+    }
 }

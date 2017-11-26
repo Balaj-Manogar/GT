@@ -1,146 +1,142 @@
 package org.baali;
 
-import org.baali.base.Female;
-import org.baali.base.Male;
 import org.baali.base.Person;
-import org.baali.db.PeopleList;
+import org.baali.community.BluCommunity;
+import org.baali.community.Community;
+import org.baali.community.RedCommunity;
 import org.baali.community.ShanCommunity;
+import org.baali.db.PeopleList;
 
 public class Main
 {
 
     public static void main(String[] args)
     {
-        Person kingShan = new Male("Shan");
-        Person queenAngs = new Female("Anga");
 
-        ShanCommunity.marriageService(kingShan, queenAngs);
+        Community shanCommunity = ShanCommunity.getInstance();
+        Community bluCommunity = BluCommunity.getInstance();
+        Community redCommunity = RedCommunity.getInstance();
 
-        System.out.println("Queen Anga gets child now");
+        Person kingShan = shanCommunity.getBoyBaby("Shan");
+
+        Person queenAnga = redCommunity.getGirlBaby("Anga");
+
+        shanCommunity.marriageService(kingShan, queenAnga);
+
+//        System.out.println("Queen Anga gets child now");
         // 1st gen
-        Person ish = new Male("Ish");
-        Person chit = new Male("Chit");
-        Person vich = new Male("Vich");
-        Person satya = new Female("Satya");
-        ShanCommunity.deliveryService(queenAngs, ish);
-        ShanCommunity.deliveryService(queenAngs, chit);
-        ShanCommunity.deliveryService(queenAngs, vich);
-        ShanCommunity.deliveryService(queenAngs, satya);
-//        System.out.println(ish);
-//        System.out.println(chit);
-//        System.out.println(satya);
+        Person ish = shanCommunity.getBoyBaby("Ish");
+        Person chit = shanCommunity.getBoyBaby("Chit");
+        Person vich = shanCommunity.getBoyBaby("Vich");
+        Person satya = shanCommunity.getGirlBaby("Satya");
+        shanCommunity.deliveryService(queenAnga, ish);
+        shanCommunity.deliveryService(queenAnga, chit);
+        shanCommunity.deliveryService(queenAnga, vich);
+        shanCommunity.deliveryService(queenAnga, satya);
 
-        // 1st gen partners
-        Person ambi = new Female("Ambi");
-        Person lika = new Female("Lika");
-        Person vyan = new Male("Vyan");
-        ShanCommunity.marriageService(chit, ambi);
-        ShanCommunity.marriageService(vich, lika);
-        ShanCommunity.marriageService(vyan, satya);
+        Person ambi = redCommunity.getGirlBaby("Ambi");
+        Person lika = redCommunity.getGirlBaby("Lika");
+        Person vyan = bluCommunity.getBoyBaby("Vyan");
+        shanCommunity.marriageService(chit, ambi);
+        shanCommunity.marriageService(vich, lika);
+        bluCommunity.marriageService(vyan, satya);
 
-        /*System.out.println(ish);
-        System.out.println(chit);
-        System.out.println(vich);
-        System.out.println(satya);*/
 
         // 2nd gen - Chit
-        Person drita = new Male("Drita");
-        Person vrita = new Male("Vrita");
+        Person drita = shanCommunity.getBoyBaby("Drita");
+        Person vrita = shanCommunity.getBoyBaby("Vrita");
         // 2nd gen - Vich
-        Person vila = new Male("Vila");
-        Person chika = new Female("Chika");
+        Person vila = shanCommunity.getBoyBaby("Vila");
+        Person chika = shanCommunity.getGirlBaby("Chika");
         // 2nd gen - satya
-        Person satvy = new Female("Satvy");
-        Person savya = new Male("Savya");
-        Person saayan = new Male("Saayan");
+        Person satvy = bluCommunity.getGirlBaby("Satvy");
+        Person savya = bluCommunity.getBoyBaby("Savya");
+        Person saayan = bluCommunity.getBoyBaby("Saayan");
 
         // 2nd gen  adding child(Chit)
-        ShanCommunity.deliveryService(ambi, drita);
-        ShanCommunity.deliveryService(ambi, vrita);
+        shanCommunity.deliveryService(ambi, drita);
+        shanCommunity.deliveryService(ambi, vrita);
         // 2nd gen  adding child(LIKA)
-        ShanCommunity.deliveryService(lika, vila);
-        ShanCommunity.deliveryService(lika, chika);
+        shanCommunity.deliveryService(lika, vila);
+        shanCommunity.deliveryService(lika, chika);
         // 2nd gen  adding child(satya)
-        // since she is not shan family we are adding
-        // her childs directly
-        ((Female) satya).addChild(satvy);
-        ((Female) satya).addChild(savya);
-        ((Female) satya).addChild(saayan);
+        bluCommunity.deliveryService(satya, satvy);
+        bluCommunity.deliveryService(satya, savya);
+        bluCommunity.deliveryService(satya, saayan);
+
+        System.out.println(satvy);
 
         // 2nd gen partners -
-        Person jaya = new Female("Jaya");
-        Person jnki = new Female("Jnki");
-        Person kpila = new Male("Kpila");
-        Person asva = new Male("Asva");
-        Person krpi = new Female("Krpi");
-        Person mina = new Female("Mina");
+        Person jaya = redCommunity.getGirlBaby("Jaya");
+        Person jnki = redCommunity.getGirlBaby("Jnki");
+        Person krpi = redCommunity.getGirlBaby("Krpi");
+        Person mina = redCommunity.getGirlBaby("Mina");
+        Person kpila = redCommunity.getBoyBaby("Kpila");
+        Person asva = redCommunity.getBoyBaby("Asva");
 
 
         // 2nd gen marriage
-        ShanCommunity.marriageService(drita, jaya);
-        ShanCommunity.marriageService(vila, jnki);
-        ShanCommunity.marriageService(kpila, chika);
-        // since they are coming from royal community
-        // marriage will be based on shan culture
-        ShanCommunity.marriageService(asva, satvy);
-        ShanCommunity.marriageService(savya, krpi);
-        ShanCommunity.marriageService(saayan, mina);
+        // just for readability
+        secondGenMarriageService(shanCommunity, bluCommunity, redCommunity, drita, vila, chika, satvy, savya, saayan, jaya, jnki, krpi, mina, kpila, asva);
 
-//        System.out.println(drita);
-//      System.out.println(jaya);
-//        System.out.println(vrita);
-//        System.out.println(vila);
-//        System.out.println(jnki);
-//        System.out.println(chika);
-//        System.out.println(kpila);
-//        System.out.println(satvy);
-//        System.out.println(asva);
-//        System.out.println(savya);
-//        System.out.println(krpi);
-//        System.out.println(saayan);
-//        System.out.println(mina);
 
 
         // 3rd gen - Drit
-        Person jata = new Male("Jata");
-        Person driya = new Female("Driya");
+        Person jata = shanCommunity.getBoyBaby("Jata");
+        Person driya = shanCommunity.getGirlBaby("Driya");
 
         // 3rd gen - Vila
-        Person lavanya = new Female("Lavanya");
+        Person lavanya = shanCommunity.getGirlBaby("Lavanya");
 
         // 3rd gen - Savya
-        Person kriya = new Male("Kriya");
+        Person kriya = bluCommunity.getBoyBaby("Kriya");
 
         // 3rd gen - Saayan
-        Person misa = new Male("Misa");
+        Person misa = bluCommunity.getBoyBaby("Misa");
 
         // 3rd gen partners
-        Person mnu = new Male("Mnu");
-        Person gru = new Male("Gru");
+        Person mnu = redCommunity.getBoyBaby("Mnu");
+        Person gru = redCommunity.getBoyBaby("Gru");
 
-        ShanCommunity.deliveryService(jaya, jata);
-        ShanCommunity.deliveryService(jaya, driya);
-        ShanCommunity.deliveryService(jnki, lavanya);
-        ShanCommunity.deliveryService(krpi, kriya);
-        ShanCommunity.deliveryService(mina, misa);
+        thirdGenDeliveryService(shanCommunity, jaya, jnki, krpi, mina, jata, driya, lavanya, kriya, misa);
 
         // 3rd gen marriage
-        ShanCommunity.marriageService(mnu, driya);
-        ShanCommunity.marriageService(gru, lavanya);
+        thirdGenMarriageService(shanCommunity, driya, lavanya, mnu, gru);
 
-//        System.out.println(jata);
-//        System.out.println(driya);
-//        System.out.println(lavanya);
-//        System.out.println(kriya);
-//        System.out.println(misa);
-//        System.out.println(drita);
-
-        System.out.println(ShanCommunity.getChildrensTypeService(jaya, ShanCommunity.femaleChildren));
+        System.out.println(shanCommunity.getChildrensTypeService(jaya, ShanCommunity.femaleChildren));
         System.out.println(PeopleList.getPeopleNames());
 
-        //  System.out.println(kingShan);
-        // System.out.println(queenAngs);
+        System.out.println(satvy);
+
+        System.out.println(kingShan);
+        System.out.println(queenAnga);
 
 
+    }
+
+    private static void secondGenMarriageService(Community shanCommunity, Community bluCommunity, Community redCommunity, Person drita, Person vila, Person chika, Person satvy, Person savya, Person saayan, Person jaya, Person jnki, Person krpi, Person mina, Person kpila, Person asva)
+    {
+        shanCommunity.marriageService(drita, jaya);
+        shanCommunity.marriageService(vila, jnki);
+        redCommunity.marriageService(kpila, chika);
+
+        redCommunity.marriageService(asva, satvy);
+        bluCommunity.marriageService(savya, krpi);
+        bluCommunity.marriageService(saayan, mina);
+    }
+
+    private static void thirdGenMarriageService(Community shanCommunity, Person driya, Person lavanya, Person mnu, Person gru)
+    {
+        shanCommunity.marriageService(mnu, driya);
+        shanCommunity.marriageService(gru, lavanya);
+    }
+
+    private static void thirdGenDeliveryService(Community shanCommunity, Person jaya, Person jnki, Person krpi, Person mina, Person jata, Person driya, Person lavanya, Person kriya, Person misa)
+    {
+        shanCommunity.deliveryService(jaya, jata);
+        shanCommunity.deliveryService(jaya, driya);
+        shanCommunity.deliveryService(jnki, lavanya);
+        shanCommunity.deliveryService(krpi, kriya);
+        shanCommunity.deliveryService(mina, misa);
     }
 }
