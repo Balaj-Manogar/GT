@@ -1,5 +1,6 @@
 package org.baali.base;
 
+import org.baali.db.PeopleList;
 import org.baali.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -11,25 +12,27 @@ import java.util.stream.Collectors;
 
 public abstract class Person implements IPerson
 {
+    private static int idGenerator = 1000;
+    protected int id;
     private String name;
     private String gender;
     private String familyName;
     private int level;
 
     private Couple couple;
-    private List<IPerson> childrens;
+    private List<Person> childrens;
     private Couple parents;
-    private List<IPerson> siblings;
-    private Map<String, List<IPerson>> currentGenerationRelatives;
+    private List<Person> siblings;
+    private Map<String, List<Person>> cousinsList;
 
-    public Person()
+    private Person()
     {
         couple = new Couple();
         childrens = new ArrayList<>();
         parents = new Couple();
         siblings = new ArrayList<>();
-        currentGenerationRelatives = new HashMap<>();
-
+        cousinsList = new HashMap<>();
+        this.id = idGenerator++;
     }
 
     public Person(String theName, Gender theGender)
@@ -38,9 +41,11 @@ public abstract class Person implements IPerson
         this.name = theName;
         this.gender = theGender.name();
         this.familyName = name;
+        PeopleList.add(this);
+
     }
 
-    public IPerson getCurrentPerson()
+    public Person getCurrentPerson()
     {
         return this;
     }
@@ -100,7 +105,7 @@ public abstract class Person implements IPerson
     }
 
     @Override
-    public List<IPerson> getSiblings()
+    public List<Person> getSiblings()
     {
         return siblings;
     }
@@ -111,22 +116,20 @@ public abstract class Person implements IPerson
         return parents;
     }
 
-    public List<IPerson> getChildrens()
+    public List<Person> getChildrens()
     {
         return this.childrens;
     }
 
 
-    @Override
-    public void setCurrentGenerationRelatives(Map<String, List<IPerson>> theRelatives)
+    public void setCousinsList(Map<String, List<Person>> theRelatives)
     {
-        this.currentGenerationRelatives = theRelatives;
+        this.cousinsList = theRelatives;
     }
 
-    @Override
-    public Map<String, List<IPerson>> getCurrentGenerationRelatives()
+    public Map<String, List<Person>> getCousinsList()
     {
-        return this.currentGenerationRelatives;
+        return this.cousinsList;
     }
 
     @Override
@@ -153,21 +156,21 @@ public abstract class Person implements IPerson
         }
 
         String relativesName = "[]";
-        if (Objects.nonNull(currentGenerationRelatives) && currentGenerationRelatives.size() > 0)
+        if (Objects.nonNull(cousinsList) && cousinsList.size() > 0)
         {
-            relativesName = currentGenerationRelatives.values().stream().
+            relativesName = cousinsList.values().stream().
                     flatMap(list -> list.stream().map(rel -> rel.getName())).collect(Collectors.joining(","));
         }
 
-        return String.format("Name: %s, Gender: %s, " + " Family name: %s" +
+        return String.format("ID: %d, Name: %s, Gender: %s, " + " Family name: %s" +
                         "\nSiblings: %s \nParents{Mom: %s, Dad: %s), " +
                         "\nCouple{Husband: %s, Wife: %s}, \nChildren: %s\n" +
                         "Relatives: %s\n"
-                , name, gender, getFamilyName(),
+                , id, name, gender, getFamilyName(),
                 siblingsName, momName, dadName, husbandName, wifeName, childrensName, relativesName);
     }
 
-    @Override
+   /* @Override
     public boolean equals(Object o)
     {
         if (this == o)
@@ -188,5 +191,34 @@ public abstract class Person implements IPerson
     public int hashCode()
     {
         return name.hashCode();
+    }*/
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        Person person = (Person) o;
+
+        if (id != person.id)
+        {
+            return false;
+        }
+        return name.equals(person.name);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = id;
+        result = 31 * result + name.hashCode();
+        return result;
     }
 }

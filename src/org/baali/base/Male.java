@@ -4,7 +4,7 @@ public class Male extends Person
 {
 
 
-    public Male(){}
+
 
     public Male(String theName)
     {

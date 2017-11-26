@@ -2,5 +2,5 @@ package org.baali.base;
 
 public interface SpecialPrivilege
 {
-    public void addChild(IPerson child);
+    public void addChild(Person child);
 }

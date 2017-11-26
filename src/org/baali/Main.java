@@ -2,39 +2,41 @@ package org.baali;
 
 import org.baali.base.Female;
 import org.baali.base.Male;
-import org.baali.base.IPerson;
-import org.baali.base.SpecialPrivilege;
+import org.baali.base.Person;
+import org.baali.db.PeopleList;
 import org.baali.family.ShanCommunity;
 
-public class Main {
+public class Main
+{
 
-    public static void main(String[] args) {
-        IPerson kingShan = new Male("Shan");
-        IPerson queenAngs = new Female("Anga");
+    public static void main(String[] args)
+    {
+        Person kingShan = new Male("Shan");
+        Person queenAngs = new Female("Anga");
 
-        ShanCommunity.marriage(kingShan, queenAngs);
+        ShanCommunity.marriageService(kingShan, queenAngs);
 
         System.out.println("Queen Anga gets child now");
         // 1st gen
-        IPerson ish = new Male("Ish");
-        IPerson chit = new Male("Chit");
-        IPerson vich = new Male("Vich");
-        IPerson satya = new Female("Satya");
-        ShanCommunity.addChild(queenAngs, ish);
-        ShanCommunity.addChild(queenAngs, chit);
-        ShanCommunity.addChild(queenAngs, vich);
-        ShanCommunity.addChild(queenAngs, satya);
+        Person ish = new Male("Ish");
+        Person chit = new Male("Chit");
+        Person vich = new Male("Vich");
+        Person satya = new Female("Satya");
+        ShanCommunity.deliveryService(queenAngs, ish);
+        ShanCommunity.deliveryService(queenAngs, chit);
+        ShanCommunity.deliveryService(queenAngs, vich);
+        ShanCommunity.deliveryService(queenAngs, satya);
 //        System.out.println(ish);
 //        System.out.println(chit);
 //        System.out.println(satya);
 
         // 1st gen partners
-        IPerson ambi = new Female("Ambi");
-        IPerson lika = new Female("Lika");
-        IPerson vyan = new Male("Vyan");
-        ShanCommunity.marriage(chit, ambi);
-        ShanCommunity.marriage(vich, lika);
-        ShanCommunity.marriage(vyan, satya);
+        Person ambi = new Female("Ambi");
+        Person lika = new Female("Lika");
+        Person vyan = new Male("Vyan");
+        ShanCommunity.marriageService(chit, ambi);
+        ShanCommunity.marriageService(vich, lika);
+        ShanCommunity.marriageService(vyan, satya);
 
         /*System.out.println(ish);
         System.out.println(chit);
@@ -42,52 +44,52 @@ public class Main {
         System.out.println(satya);*/
 
         // 2nd gen - Chit
-        IPerson drita = new Male("Drita");
-        IPerson vrita = new Male("Vrita");
+        Person drita = new Male("Drita");
+        Person vrita = new Male("Vrita");
         // 2nd gen - Vich
-        IPerson vila = new Male("Vila");
-        IPerson chika = new Female("Chika");
+        Person vila = new Male("Vila");
+        Person chika = new Female("Chika");
         // 2nd gen - satya
-        IPerson satvy = new Female("Satvy");
-        IPerson savya = new Male("Savya");
-        IPerson saayan = new Male("Saayan");
+        Person satvy = new Female("Satvy");
+        Person savya = new Male("Savya");
+        Person saayan = new Male("Saayan");
 
         // 2nd gen  adding child(Chit)
-        ShanCommunity.addChild(ambi, drita);
-        ShanCommunity.addChild(ambi, vrita);
+        ShanCommunity.deliveryService(ambi, drita);
+        ShanCommunity.deliveryService(ambi, vrita);
         // 2nd gen  adding child(LIKA)
-        ShanCommunity.addChild(lika, vila);
-        ShanCommunity.addChild(lika, chika);
+        ShanCommunity.deliveryService(lika, vila);
+        ShanCommunity.deliveryService(lika, chika);
         // 2nd gen  adding child(satya)
         // since she is not shan family we are adding
         // her childs directly
-        ((SpecialPrivilege)satya).addChild(satvy);
-        ((SpecialPrivilege)satya).addChild(savya);
-        ((SpecialPrivilege)satya).addChild(saayan);
+        ((Female) satya).addChild(satvy);
+        ((Female) satya).addChild(savya);
+        ((Female) satya).addChild(saayan);
 
         // 2nd gen partners -
-        IPerson jaya = new Female("Jaya");
-        IPerson jnki = new Female("Jnki");
-        IPerson kpila = new Male("Kpila");
-        IPerson asva = new Male("Asva");
-        IPerson krpi = new Female("Krpi");
-        IPerson mina = new Female("Mina");
+        Person jaya = new Female("Jaya");
+        Person jnki = new Female("Jnki");
+        Person kpila = new Male("Kpila");
+        Person asva = new Male("Asva");
+        Person krpi = new Female("Krpi");
+        Person mina = new Female("Mina");
 
 
         // 2nd gen marriage
-        ShanCommunity.marriage(drita, jaya);
-        ShanCommunity.marriage(vila, jnki);
-        ShanCommunity.marriage(kpila, chika);
+        ShanCommunity.marriageService(drita, jaya);
+        ShanCommunity.marriageService(vila, jnki);
+        ShanCommunity.marriageService(kpila, chika);
         // since they are coming from royal community
         // marriage will be based on shan culture
-        ShanCommunity.marriage(asva, satvy);
-        ShanCommunity.marriage(savya, krpi);
-        ShanCommunity.marriage(saayan, mina);
+        ShanCommunity.marriageService(asva, satvy);
+        ShanCommunity.marriageService(savya, krpi);
+        ShanCommunity.marriageService(saayan, mina);
 
-        System.out.println(drita);
+//        System.out.println(drita);
 //      System.out.println(jaya);
-        System.out.println(vrita);
-       System.out.println(vila);
+//        System.out.println(vrita);
+//        System.out.println(vila);
 //        System.out.println(jnki);
 //        System.out.println(chika);
 //        System.out.println(kpila);
@@ -99,12 +101,45 @@ public class Main {
 //        System.out.println(mina);
 
 
+        // 3rd gen - Drit
+        Person jata = new Male("Jata");
+        Person driya = new Female("Driya");
 
-       // System.out.println(drita);
+        // 3rd gen - Vila
+        Person lavanya = new Female("Lavanya");
 
-      //  System.out.println(kingShan);
-       // System.out.println(queenAngs);
+        // 3rd gen - Savya
+        Person kriya = new Male("Kriya");
 
+        // 3rd gen - Saayan
+        Person misa = new Male("Misa");
+
+        // 3rd gen partners
+        Person mnu = new Male("Mnu");
+        Person gru = new Male("Gru");
+
+        ShanCommunity.deliveryService(jaya, jata);
+        ShanCommunity.deliveryService(jaya, driya);
+        ShanCommunity.deliveryService(jnki, lavanya);
+        ShanCommunity.deliveryService(krpi, kriya);
+        ShanCommunity.deliveryService(mina, misa);
+
+        // 3rd gen marriage
+        ShanCommunity.marriageService(mnu, driya);
+        ShanCommunity.marriageService(gru, lavanya);
+
+//        System.out.println(jata);
+//        System.out.println(driya);
+//        System.out.println(lavanya);
+//        System.out.println(kriya);
+//        System.out.println(misa);
+//        System.out.println(drita);
+
+        System.out.println(ShanCommunity.getChildrensTypeService(jaya, ShanCommunity.femaleChildren));
+        System.out.println(PeopleList.getPeopleNames());
+
+        //  System.out.println(kingShan);
+        // System.out.println(queenAngs);
 
 
     }

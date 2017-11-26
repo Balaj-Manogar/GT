@@ -5,14 +5,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.joining;
-
 public class Female extends Person implements SpecialPrivilege
 {
 
-    public Female()
-    {
-    }
 
 
     public Female(String theName)
@@ -22,7 +17,7 @@ public class Female extends Person implements SpecialPrivilege
 
 
     @Override
-    public void addChild(IPerson child)
+    public void addChild(Person child)
     {
         String childFamilyName = child.getChildFamilyName();
         //child.setFamilyName(childFamilyName);
@@ -31,32 +26,21 @@ public class Female extends Person implements SpecialPrivilege
         addChildToParents(child);
         addSiblings(getChildrens(), child);
         addRelatives(child, getCouple());
-        if (getParents().getMale() != null)
-        {
-            String names = getParents().getMale().getChildrens().stream()
-                    .flatMap(c -> c.getChildrens().stream())
-                    .map(s -> s.getName())
-                    .collect(joining(","));
-            names = names.replace(child.getName(), "");
-            //System.out.println("Child Name: " + child.getName() + ", Parent: " + child.getParents().getMale().getName());
-            //System.out.println("Names:: " + names);
-        }
-
     }
 
 
-    private void addChildToParents(IPerson child)
+    private void addChildToParents(Person child)
     {
         getChildrens().add(child);
         getCouple().getMale().getChildrens().add(child);
     }
 
-    private void addSibling(IPerson child)
+    private void addSibling(Person child)
     {
         child.getSiblings().add(child);
     }
 
-    private void addSiblings(List<IPerson> siblings, IPerson child)
+    private void addSiblings(List<Person> siblings, Person child)
     {
         siblings.forEach(s -> {
             s.getSiblings().clear();
@@ -65,7 +49,7 @@ public class Female extends Person implements SpecialPrivilege
         });
     }
 
-    private void addRelatives(IPerson child, Couple couple)
+    private void addRelatives(Person child, Couple couple)
     {
         Male dad = couple.getMale();
         Female mom = couple.getFeMale();
@@ -80,33 +64,34 @@ public class Female extends Person implements SpecialPrivilege
                 .collect(joining(",")) + " ......");*/
 
 
-        List<IPerson> dadSiblingsChildren = dad.getSiblings().stream()
+        /*List<IPerson> dadSiblingsChildren = dad.getSiblings().stream()
                 .flatMap(Female::currentGenerationRelativesStream)
                 .collect(Collectors.toList());
 
         List<IPerson> momSiblingsChildren = mom.getSiblings().stream()
                 .flatMap(Female::currentGenerationRelativesStream)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
+        List<Person> dadSiblingsChildren = currentGenerationRelativesList(dad.getSiblings().stream());
+        List<Person> momSiblingsChildren = currentGenerationRelativesList(mom.getSiblings().stream());
+        child.getCousinsList().clear();
 
-        child.getCurrentGenerationRelatives().clear();
-
-        child.getCurrentGenerationRelatives().put(dadFamilyName, dadSiblingsChildren);
-        child.getCurrentGenerationRelatives().put(momFamilyName, momSiblingsChildren);
+        child.getCousinsList().put(dadFamilyName, dadSiblingsChildren);
+        child.getCousinsList().put(momFamilyName, momSiblingsChildren);
 
         updateRelativesInCousins(child, dadSiblingsChildren);
         updateRelativesInCousins(child, momSiblingsChildren);
 
        /* dadSiblingsChildren.stream().filter(d -> {
-            //List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
-            List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+            //List<IPerson> hasFamilyNameInRelatives = d.getCousinsList().get(d.getFamilyName());
+            List<IPerson> hasFamilyNameInRelatives = d.getCousinsList().get(d.getFamilyName());
             boolean isNotSibling = !d.getSiblings().contains(d);
             return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(child);
         }).forEach(d -> addRelatives(d, d.getParents()));
 
         momSiblingsChildren.stream().filter(d -> {
-            //List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
-            List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+            //List<IPerson> hasFamilyNameInRelatives = d.getCousinsList().get(d.getFamilyName());
+            List<IPerson> hasFamilyNameInRelatives = d.getCousinsList().get(d.getFamilyName());
             boolean isNotSibling = !d.getSiblings().contains(d);
             return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(child);
         }).forEach(d -> addRelatives(d, d.getParents()));
@@ -114,7 +99,7 @@ public class Female extends Person implements SpecialPrivilege
 
      /*   Function<IPerson, Predicate<IPerson>> updateRelatives = currentChild -> {
             Predicate<IPerson> updateRelativesPredicate = d -> {
-                List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+                List<IPerson> hasFamilyNameInRelatives = d.getCousinsList().get(d.getFamilyName());
                 boolean isNotSibling = !d.getSiblings().contains(d);
                 return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(currentChild);
             };
@@ -125,17 +110,24 @@ public class Female extends Person implements SpecialPrivilege
 
     }
 
-    private void updateRelativesInCousins(IPerson child, List<IPerson> siblingsChildren)
+    private void updateRelativesInCousins(Person child, List<Person> siblingsChildren)
     {
         siblingsChildren.stream().filter(d -> {
-            //List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
-            List<IPerson> hasFamilyNameInRelatives = d.getCurrentGenerationRelatives().get(d.getFamilyName());
+            //List<IPerson> hasFamilyNameInRelatives = d.getCousinsList().get(d.getFamilyName());
+            List<Person> hasFamilyNameInRelatives = d.getCousinsList().get(d.getFamilyName());
             boolean isNotSibling = !d.getSiblings().contains(d);
             return isNotSibling && Objects.nonNull(hasFamilyNameInRelatives) && !hasFamilyNameInRelatives.contains(child);
         }).forEach(d -> addRelatives(d, d.getParents()));
     }
 
-    private static Stream<? extends IPerson> currentGenerationRelativesStream(IPerson sibling)
+    private List<Person> currentGenerationRelativesList(Stream<Person> relativeStream)
+    {
+        return relativeStream.flatMap(Female::currentGenerationRelativesStream)
+            .collect(Collectors.toList());
+    }
+
+
+    private static Stream<? extends Person> currentGenerationRelativesStream(Person sibling)
     {
         return sibling.getChildrens().stream();
     }
