@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ShanCommunity extends Community
 {
-    private final String COMMUNITY_NAME = "SHAN";
+
     private static ShanCommunity instance;
     public static Predicate<Person> femaleChildren = c -> c.getGender().equalsIgnoreCase("female");
 
@@ -22,6 +22,7 @@ public class ShanCommunity extends Community
                 if (instance == null)
                 {
                     instance = new ShanCommunity();
+                    instance.COMMUNITY_NAME = "SHAN";
                 }
             }
         }
@@ -46,9 +47,5 @@ public class ShanCommunity extends Community
         return person.getChildrens().stream().filter(constraint).collect(Collectors.toList());
     }
 
-    public String getCommunityName()
-    {
-        return this.COMMUNITY_NAME;
-    }
 
 }

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class BluCommunity extends Community
 {
     private static BluCommunity instance;
-    private static final String COMMUNITY_NAME = "BLU";
     public static Predicate<Person> femaleChildren = c -> c.getGender().equalsIgnoreCase("female");
 
     public static BluCommunity getInstance()
@@ -22,6 +21,7 @@ public class BluCommunity extends Community
                 if (instance == null)
                 {
                     instance = new BluCommunity();
+                    instance.COMMUNITY_NAME = "BLU";
                 }
             }
         }
@@ -39,11 +39,6 @@ public class BluCommunity extends Community
         return null;
     }
 
-    @Override
-    public String getCommunityName()
-    {
-        return this.COMMUNITY_NAME;
-    }
 
     public List<Person> getChildrensTypeService(Person person, Predicate<Person> constraint)
     {

@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 public abstract class Community
 {
-
+    protected   String COMMUNITY_NAME = "SHAN";
     public Couple marriageService(Person husband, Person wife)
     {
         ((Male) husband).marry((Female) wife);
@@ -31,16 +31,19 @@ public abstract class Community
     public Person getBoyBaby(String theName)
     {
         Person boy = new Male(theName);
-        boy.setFamilyName(getCommunityName());
+        boy.setFamilyName(this.COMMUNITY_NAME);
         return boy;
     }
 
     public Person getGirlBaby(String theName)
     {
         Person girl = new Female(theName);
-        girl.setFamilyName(getCommunityName());
+        girl.setFamilyName(this.COMMUNITY_NAME);
         return girl;
     }
 
-    abstract public String getCommunityName();
+    public String getCommunityName()
+    {
+        return this.COMMUNITY_NAME;
+    }
 }
