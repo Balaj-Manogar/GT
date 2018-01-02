@@ -39,6 +39,7 @@ public class RelationShipService
         RelationKey sister = new RelationKey("SISTER", DefaultRelationOptions.NA, IPerson.Gender.FEMALE, "Sister");
         RelationKey wife = new RelationKey("WIFE", DefaultRelationOptions.NA, IPerson.Gender.FEMALE, "Wife");
         RelationKey husband = new RelationKey("HUSBAND", DefaultRelationOptions.NA, IPerson.Gender.MALE, "Husband");
+
         // 3
         RelationKey sonInLaw = new RelationKey("SON_IN_LAW", DefaultRelationOptions.NA, IPerson.Gender.MALE, "Son In " +
                 "Law");
